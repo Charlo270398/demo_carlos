@@ -1,0 +1,21 @@
+.newCard {
+    width: 75%;
+    margin: 0 auto;
+    background-color: #a1ad99;
+    border-top: 4px #000 solid;
+    border-bottom: 4px #000 solid;
+    border-left: 4px #000 solid;
+    border-right: 4px #000 solid;
+    margin-top: 10px;
+}
+
+.newCard_Archived {
+    width: 75%;
+    margin: 0 auto;
+    background-color: #f59c9c;
+    border-top: 4px #000 solid;
+    border-bottom: 4px #000 solid;
+    border-left: 4px #000 solid;
+    border-right: 4px #000 solid;
+    margin-top: 10px;
+}

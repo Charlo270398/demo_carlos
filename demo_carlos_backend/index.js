@@ -21,6 +21,8 @@ const { GetNewsList } = require('./src/use_cases/new/GetNewsList');
 const { ArchiveNew } = require('./src/use_cases/new/ArchiveNew');
 const { AddNew } = require('./src/use_cases/new/AddNew');
 const { DeleteNew } = require('./src/use_cases/new/DeleteNew');
+const { Register } = require('./src/use_cases/user/Register');
+const { Login } = require('./src/use_cases/user/Login');
 
 const server = http.createServer(server_options, app).listen(5000, async function () {
     console.log(`Servidor Node.js lanzado en el puerto ${ 5000 }!`);
@@ -74,6 +76,34 @@ app.delete('/news/:_id/delete', jsonParser, async function(req,res) {
         const DeleteNewResult = await DeleteNew({_id: req.params._id});
         res.statusCode = DeleteNewResult.codeResult;
         res.send(null)
+    } catch (err) {
+        //Bad request
+        console.error(err);
+        res.statusCode = 400;
+        res.send(null)
+    }
+});
+
+//Login
+app.post('/login', jsonParser, async function(req,res) {
+    try {
+        const LoginResult = await Login(req.body);
+        res.statusCode = LoginResult.codeResult;
+        res.send({jwt: LoginResult.jwt})
+    } catch (err) {
+        //Bad request
+        console.error(err);
+        res.statusCode = 400;
+        res.send(null)
+    }
+});
+
+//Register
+app.post('/register', jsonParser, async function(req,res) {
+    try {
+        const RegisterResult = await Register(req.body);
+        res.statusCode = RegisterResult.codeResult;
+        res.send({jwt: RegisterResult.jwt})
     } catch (err) {
         //Bad request
         console.error(err);

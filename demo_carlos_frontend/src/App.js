@@ -1,21 +1,48 @@
 import './App.css';
-import { Route, Switch } from "wouter";
+import { Route, Switch, Redirect } from "wouter";
 import Header from './components/Header';
+import { UserContextProvider } from './context/UserContext';
+import { 
+  ApolloProvider,
+} from '@apollo/client' 
+import { apollo_client } from "./services/getApolloClient";
 
 //Import pages
 import NewsListPage from './views/NewsList';
 import ArchivedNewsListPage from './views/ArchivedNewsList';
+import RegisterPage from './views/Register';
+import LoginPage from './views/Login';
+import useUser from './hooks/useUser';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Switch>
-        <Route component={NewsListPage} path="/" />
-        <Route component={ArchivedNewsListPage} path="/archived" />
-      </Switch>
-    </div>
+    <UserContextProvider>
+      <div className="App">
+        <Header />
+        <Switch>
+          <Route component={RegisterPage} path="/register" />
+          <Route component={LoginPage} path="/login" />
+          <ProtectedRoute>
+            <ApolloProvider client={apollo_client}>
+              <Route component={NewsListPage} path="/" />
+              <Route component={ArchivedNewsListPage} path="/archived" />
+            </ApolloProvider>
+          </ProtectedRoute>
+        </Switch>
+      </div>
+    </UserContextProvider>
   );
+}
+
+const ProtectedRoute = ({
+  redirectPath ='/login',
+  children
+}) => {
+  const {isLogged} = useUser()
+  if(!isLogged) {
+    return <Redirect to={redirectPath} replace />
+  }
+  return children
 }
 
 export default App;

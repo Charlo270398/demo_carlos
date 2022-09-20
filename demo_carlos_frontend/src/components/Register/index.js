@@ -27,7 +27,7 @@ export default function Register () {
                 setJWTSession({jwt})
                 navigate("/")
             }).catch((err) => {
-                console.log(err)
+                console.error(err)
                 setRegisterError({show: true, text: err.message})
             }).finally(() => {
                 setLoading(false)
@@ -55,7 +55,7 @@ export default function Register () {
                     </p>
                 </div>
                 <div className="form_footer">
-                    <ButtonComponent primary >Registrarse</ButtonComponent>
+                    <ButtonComponent primary >Register</ButtonComponent>
                     {loading && <p>Processing...</p>}
                     {register_error.show && <p>{register_error.text}</p>}
                 </div>

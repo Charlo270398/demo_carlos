@@ -15,6 +15,8 @@ const certificate_private_key = process.env.CERTIFICATE_KEY;
 const certificate = fs.readFileSync('certs/server_certificate.crt').toString();
 const server_options = {key: certificate_private_key, cert: certificate};
 
+//JWT verification Middleware
+const { CheckAuthorization } = require('./src/utils/CheckAuthorization'); 
 
 //Use cases
 const { GetNewsList } = require('./src/use_cases/new/GetNewsList');
@@ -29,7 +31,7 @@ const server = http.createServer(server_options, app).listen(5000, async functio
 });
 
 //Get list of news
-app.get('/news', async function(req,res) {
+app.get('/news', CheckAuthorization, async function(req,res) {
     try {
         const GetNewListResult = await GetNewsList({isArchivedNews: req.query.isArchivedNews});
         res.statusCode = GetNewListResult.codeResult;
@@ -43,11 +45,11 @@ app.get('/news', async function(req,res) {
 });
 
 //Archive new
-app.put('/news/:_id/archive', async function(req,res) {
+app.put('/news/:_id/archive', CheckAuthorization, async function(req,res) {
     try {
         const ArchiveNewResult = await ArchiveNew({_id: req.params._id});
         res.statusCode = ArchiveNewResult.codeResult;
-        res.send(null)
+        res.send({})
     } catch (err) {
         //Bad request
         console.error(err);
@@ -57,7 +59,7 @@ app.put('/news/:_id/archive', async function(req,res) {
 });
 
 //Add new
-app.post('/news/add', jsonParser, async function(req,res) {
+app.post('/news/add', CheckAuthorization, jsonParser, async function(req,res) {
     try {
         const AddNewResult = await AddNew(req.body);
         res.statusCode = AddNewResult.codeResult;
@@ -71,11 +73,11 @@ app.post('/news/add', jsonParser, async function(req,res) {
 });
 
 //Delete new
-app.delete('/news/:_id/delete', jsonParser, async function(req,res) {
+app.delete('/news/:_id/delete', CheckAuthorization, jsonParser, async function(req,res) {
     try {
         const DeleteNewResult = await DeleteNew({_id: req.params._id});
         res.statusCode = DeleteNewResult.codeResult;
-        res.send(null)
+        res.send({})
     } catch (err) {
         //Bad request
         console.error(err);

@@ -1,19 +1,9 @@
-import { useMutation } from '@apollo/client';
 import React, { useState } from 'react'
 import { newStatusList } from '../../hooks/useNews';
-import { DELETE_NEW_BY_ID_MUTATION, UPDATE_NEW_ARCHIVE_DATE_BY_ID_MUTATION } from '../../mongoDB/mutations';
-import { GET_NEWS_QUERY, GET_NEWS_QUERY_ARCHIVED } from '../../mongoDB/querys';
 import ButtonComponent from '../Button';
 import "./New.css"
 
-export default function New({ _id, title, description, date, content, author, archiveDate, status}){
-
-    const [mutateNewArchiveDate, {}] = useMutation(UPDATE_NEW_ARCHIVE_DATE_BY_ID_MUTATION, {
-        refetchQueries: [{ query: GET_NEWS_QUERY }] //Refetch data after mutation (update)
-    });
-    const [mutationDeleteNew, {}] = useMutation(DELETE_NEW_BY_ID_MUTATION, {
-        refetchQueries: [{ query: GET_NEWS_QUERY_ARCHIVED }] //Refetch data after mutation (deletion)
-    });
+export default function New({ _id, title, description, date, content, author, archiveDate, status, onArchiveClick, onDeleteClick}){
 
     const [processing, setProcessing] = useState(false)
 
@@ -21,22 +11,11 @@ export default function New({ _id, title, description, date, content, author, ar
         setProcessing(true)
         switch (status) {
             case newStatusList.CURRENT_NEW: {
-                await mutateNewArchiveDate({
-                    variables: {
-                        _id: _id,
-                        set: { 
-                            archiveDate: new Date(),
-                        },
-                    }
-                });
+                await onArchiveClick({_id})
                 break;
             }
             case newStatusList.ARCHIVED: {
-                mutationDeleteNew({
-                    variables: {
-                        _id: _id,
-                    }
-                })
+                await onDeleteClick({_id})
                 break;
             }
             default:

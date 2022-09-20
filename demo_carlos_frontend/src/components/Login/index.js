@@ -22,7 +22,7 @@ export default function Login () {
             setJWTSession({jwt})
             navigate("/")
         }).catch((err) => {
-            console.log(err)
+            console.error(err)
             setLoginError({show: true, text: err.message})
         }).finally(() => {
             setLoading(false)

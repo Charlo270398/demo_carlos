@@ -1,2 +1,4 @@
 .env
 node_modules/
+demo_carlos_frontend/package-lock.json
+demo_carlos_backend/package-lock.json

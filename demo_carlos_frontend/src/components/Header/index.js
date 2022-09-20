@@ -21,6 +21,9 @@ export default function Header () {
             <Link to='/archived'>
               Archived News
             </Link>
+            <Link to='/add'>
+              Add New
+            </Link>
           </React.Fragment>
         }
         {isLogged ?

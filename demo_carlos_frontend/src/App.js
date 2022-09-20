@@ -13,6 +13,7 @@ import ArchivedNewsListPage from './views/ArchivedNewsList';
 import RegisterPage from './views/Register';
 import LoginPage from './views/Login';
 import useUser from './hooks/useUser';
+import AddNewPage from './views/AddNew';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <ApolloProvider client={apollo_client}>
               <Route component={NewsListPage} path="/" />
               <Route component={ArchivedNewsListPage} path="/archived" />
+              <Route component={AddNewPage} path="/add" />
             </ApolloProvider>
           </ProtectedRoute>
         </Switch>

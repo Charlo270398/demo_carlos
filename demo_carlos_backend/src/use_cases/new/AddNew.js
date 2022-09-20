@@ -13,7 +13,7 @@ async function AddNew({title, description, author, content, date = Date.now()}) 
         ])
 
         const addedNew = await addNewService({title, description, author, content, date});
-        return {codeResult: !addedNew.$isEmpty ? 200 : 400, addedNew: addedNew }
+        return {codeResult: addedNew !== null ? 200 : 400, addedNew: addedNew }
     } catch (error) {
         console.error(error)
         return {codeResult: 400, addedNew: null}

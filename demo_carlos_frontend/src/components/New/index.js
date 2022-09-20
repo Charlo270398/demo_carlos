@@ -46,7 +46,7 @@ export default function New({ _id, title, description, date, content, author, ar
     const buttonText = status === newStatusList.CURRENT_NEW ? 'Archive' : 'Remove';
 
     try {
-        const formattedDateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',  hour: '2-digit', minute:'2-digit', second:'2-digit' };
         const formattedDate = new Date(date).toLocaleDateString("en-US", formattedDateOptions);
         const formattedArchivedDate = status === newStatusList.ARCHIVED ? new Date(archiveDate).toLocaleDateString("en-US", formattedDateOptions) : null;
 
